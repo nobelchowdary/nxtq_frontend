@@ -1,0 +1,126 @@
+.form {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  gap: 20px;
+}
+.inputWrapper {
+  display: flex;
+  flex-flow: column;
+  height: 70px;
+}
+.inputWrapper label {
+  color: #646464;
+  font-size: 15px;
+}
+.inputWrapperS {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.inputWrapperS p {
+  color: #a0aec0;
+  font-size: 13px;
+}
+.inputWrapper input {
+  height: 45px;
+  width: 320px;
+  margin: 5px 0px;
+  border: 0;
+  padding: 5px 20px;
+  border-radius: 4px;
+  border: 1px solid #a0aec0;
+  outline: none;
+}
+.inputWrapper input::placeholder {
+  color: #a0aec0;
+}
+.normalText {
+  color: #a0aec0;
+  font-size: 11px;
+  margin: 5px 0;
+}
+.hyperText {
+  color: #4fd1c5;
+  font-size: 11px;
+  cursor: pointer;
+  font-weight: 700;
+  margin: 0px 0;
+}
+.bottom {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+/* ToggleButton.module.css */
+.toggle {
+  display: inline-block;
+  width: 45px;
+  height: 20px;
+}
+
+.toggle input[type="checkbox"] {
+  display: none;
+}
+
+.slider {
+  position: relative;
+  display: block;
+  width: 40px;
+  height: 20px;
+  background-color: #ccc;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background-color 0.4s;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  top: 2.5px;
+  left: 2px;
+  width: 15px;
+  height: 15px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.4s;
+}
+
+.toggle input[type="checkbox"]:checked + .slider {
+  background-color: #4fd1c5;
+}
+
+.toggle input[type="checkbox"]:checked + .slider::before {
+  transform: translateX(20px);
+}
+.PatientForm {
+  padding: 10px;
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  gap: 10px;
+}
+.PatientForm input {
+  width: 100%;
+  border-radius: 4px;
+}
+.PatientForm select {
+  height: 45px;
+  width: 100%;
+  margin: 5px 0px;
+  border: 0;
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: 1px solid #a0aec0;
+  outline: none;
+}
+.doubleInput {
+  display: grid;
+  grid-template-columns: 48% 48%;
+  gap: 10px;
+}
+.PatientForm button {
+  border-radius: 4px;
+  font-size: 16px;
+}
