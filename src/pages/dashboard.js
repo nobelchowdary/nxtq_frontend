@@ -16,7 +16,7 @@ import DataSummery from "../../components/DataSummery/DataSummery";
 import { getCookie, setCookie } from "../../lib/useCookies";
 
 const dashboard = (props) => {
-  // console.log(props.token.token.data.patients, "in dashboard");
+  console.log(props.token.token.data, "in dashboard");
 
   const [showProfile, setShowProfile] = useState(false);
   const [uploadData, setUploadData] = useState(true);
@@ -178,6 +178,7 @@ const dashboard = (props) => {
               patientId={props.token.token.data.patients}
               setUploadSummery={goToSummery}
               setUploadData={disableUpload}
+              uploadData={uploadData}
             />
           ) : (
             ""

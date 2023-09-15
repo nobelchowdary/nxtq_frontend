@@ -37,8 +37,8 @@ const Form = () => {
     try {
       const data = await fetch(
         register
-          ? "http://18.191.200.118:8000/nxtapi/register/"
-          : "http://18.191.200.118:8000/nxtapi/login/",
+          ? "http://3.135.218.54:8000/nxtapi/register/"
+          : "http://3.135.218.54:8000/nxtapi/login/",
         {
           method: "POST",
           body: register

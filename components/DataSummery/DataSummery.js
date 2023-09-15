@@ -12,7 +12,7 @@ const DataSummery = ({ userID }) => {
     const getSummery = async () => {
       try {
         const data = await fetch(
-          "http://18.191.200.118:8000/nxtapi/input_files_summary/",
+          "http://3.135.218.54:8000/nxtapi/input_files_summary/",
           {
             method: "POST",
             body: JSON.stringify({
@@ -27,7 +27,7 @@ const DataSummery = ({ userID }) => {
 
         if (data.status === true) {
           setFileData(data.data);
-          console.log(JSON.parse(fileData.summary));
+
           const checkError = () => {
             JSON.parse(fileData.summary).data.map((data, index) => {
               const check = data.includes(null);
@@ -44,7 +44,7 @@ const DataSummery = ({ userID }) => {
       }
     };
     getSummery();
-  }, []);
+  }, [fileData.summary]);
 
   return (
     <div className={styles.uploadSummery}>

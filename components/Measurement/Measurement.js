@@ -10,14 +10,14 @@ import { getCookie } from "../../lib/useCookies";
 const Measurement = ({ userID, setMeasurement }) => {
   const [patientDataSubmit, setPatientDataSubmit] = useState(false);
   const [query, setQuery] = useState({
-    buttock_heigh: "",
-    buttock_popliteal_length: "",
-    buttock_popliteal_length_1: "",
-    buttock_popliteal_length_2: "",
-    buttock_popliteal_length_3: "",
-    buttock_popliteal_length_4: "",
-    buttock_popliteal_length_5: "",
-    elbow_centre_grip_length: "",
+    buttock_heigh: 0,
+    buttock_popliteal_length: 0,
+    buttock_popliteal_length_1: 0,
+    buttock_popliteal_length_2: 0,
+    buttock_popliteal_length_3: 0,
+    buttock_popliteal_length_4: 0,
+    buttock_popliteal_length_5: 0,
+    elbow_centre_grip_length: 0,
   });
   const handleParam = () => (e) => {
     const name = e.target.name;
@@ -38,11 +38,11 @@ const Measurement = ({ userID, setMeasurement }) => {
     if (patientDataSubmit) {
       try {
         const data = await fetch(
-          "http://18.191.200.118:8000/nxtapi/submit_measurement/",
+          "http://3.135.218.54:8000/nxtapi/submit_measurement/",
           {
             method: "POST",
             body: JSON.stringify({
-              patient_id: patientData.data.patient_id,
+              patient_id: patientData,
               measurements: {
                 buttock_height: query.buttock_heigh,
                 buttock_popliteal_length: query.buttock_popliteal_length,

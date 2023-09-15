@@ -6,13 +6,19 @@ import Measurement from "../Measurement/Measurement";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { getCookie, setCookie } from "../../lib/useCookies";
 
-const UploadData = ({ userID, setUploadSummery, setUploadData, patientId }) => {
-  const patentID = getCookie("patientInfo");
+const UploadData = ({
+  userID,
+  setUploadSummery,
+  setUploadData,
+  patientId,
+  uploadData,
+}) => {
+  const [patientDetails, setPatientDetails] = useState([]);
+  // const patentID = getCookie("patientInfo");
   const [nextSummery, setNextSummery] = useState(false);
   const [query, setQuery] = useState({
     user_id: userID,
-    patient_id:
-      patentID.length === 0 ? patientId[patientId.length - 1].id : patentID,
+    patient_id: "",
   });
 
   // const getPatient = patientId.sort(function (a, b) {
@@ -32,12 +38,37 @@ const UploadData = ({ userID, setUploadSummery, setUploadData, patientId }) => {
   const [measurement, setMeasurement] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const fileInputRef = useRef(null);
+  console.log(patientId, uploadData, patientDetails.length);
+  //for getting patient info
+  useEffect(() => {
+    const getPatientInfo = async () => {
+      try {
+        const data = await fetch(
+          "http://3.135.218.54:8000/nxtapi/get_user_patients/",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              user_id: userID,
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        ).then((t) => t.json());
+        if (data.status === true) {
+          console.log(data);
+          setPatientDetails(data.data);
+        }
+      } catch (error) {}
+    };
+    getPatientInfo();
+  }, [patientId, uploadData, patientDetails.length, query.patient_id]);
   // useEffect(() => {
   //   console.log("inside fetch");
   //   const fetchPatientDetails = async () => {
   //     try {
   //       const data = await fetch(
-  //         "http://18.191.200.118:8000/get_patient_info/",
+  //         "http://3.135.218.54:8000/get_patient_info/",
   //         {
   //           method: "POST",
   //           body: JSON.stringify({
@@ -60,9 +91,10 @@ const UploadData = ({ userID, setUploadSummery, setUploadData, patientId }) => {
   //fetch folder data
   useEffect(() => {
     const getFolderData = async () => {
+      console.log("patientId is there");
       try {
         const data = await fetch(
-          "http://18.191.200.118:8000/nxtapi/fetch_user_s3_folders/",
+          "http://3.135.218.54:8000/nxtapi/fetch_user_s3_folders/",
           {
             method: "POST",
             body: JSON.stringify({
@@ -75,6 +107,7 @@ const UploadData = ({ userID, setUploadSummery, setUploadData, patientId }) => {
           }
         ).then((t) => t.json());
         if (data.status === true) {
+          console.log(data);
           setPatientData({
             message: data.message,
             data: data.data,
@@ -111,7 +144,7 @@ const UploadData = ({ userID, setUploadSummery, setUploadData, patientId }) => {
 
     try {
       const data = await fetch(
-        "http://18.191.200.118:8000/nxtapi/upload_csv_file/",
+        "http://3.135.218.54:8000/nxtapi/upload_csv_file/",
         {
           method: "POST",
           body: formData,
@@ -127,7 +160,7 @@ const UploadData = ({ userID, setUploadSummery, setUploadData, patientId }) => {
     }
   };
   const handleCustomButtonClick = () => {
-    if (patientId.length === 0)
+    if (patientDetails.length === 0)
       alert("Please submit patient data and measurement data first");
     else fileInputRef.current.click();
   };
@@ -154,23 +187,32 @@ const UploadData = ({ userID, setUploadSummery, setUploadData, patientId }) => {
         </div>
         <div className={styles.uploadRight}>
           <div className={styles.patientDetails}>
-            <p>Please select a patient to See the Details</p>
-            <select
-              name="patient_id"
-              required
-              value={query.patient_id}
-              onChange={handleParam()}
-              placeholder="Select a patient"
-            >
-              <option value="">Select a patient</option>
-              {patientId.map((data, index) => {
-                return (
-                  <option value={data.id} key={index}>
-                    {data.patient_name}
-                  </option>
-                );
-              })}
-            </select>
+            {patientDetails.length === 0 ? (
+              <p>There is no patient associated. Upload new Patients Data</p>
+            ) : (
+              <>
+                <p>
+                  Please select a patient to See the Details or Go to Upload New
+                  Measurements for new patient
+                </p>
+                <select
+                  name="patient_id"
+                  required
+                  value={query.patient_id}
+                  onChange={handleParam()}
+                  placeholder="Select a patient"
+                >
+                  <option value="">Select a patient</option>
+                  {patientDetails.map((data, index) => {
+                    return (
+                      <option value={data.id} key={index}>
+                        {data.patient_name}
+                      </option>
+                    );
+                  })}
+                </select>
+              </>
+            )}
           </div>
           {patientData === "" ? (
             ""
@@ -205,7 +247,7 @@ const UploadData = ({ userID, setUploadSummery, setUploadData, patientId }) => {
               setMeasurement(true);
             }}
           >
-            Upload {patientId == undefined ? "" : "New "}Measurements
+            Upload {patientId === undefined ? "" : "New "}Measurements
             <BsCloudUpload />
           </button>
           <div className={styles.btnWrapper}>
