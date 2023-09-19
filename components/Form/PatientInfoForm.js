@@ -25,7 +25,7 @@ const PatientInfoForm = ({ userID, setPatientDataSubmit }) => {
     e.preventDefault();
     try {
       const data = await fetch(
-        "http://3.135.218.54:8000/nxtapi/submit_user_data/",
+        "http://3.139.243.94:8000/nxtapi/submit_user_data/",
         {
           method: "POST",
           body: JSON.stringify({

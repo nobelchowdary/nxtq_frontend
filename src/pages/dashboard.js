@@ -9,18 +9,22 @@ import {
   MdStickyNote2,
   MdWorkHistory,
 } from "react-icons/md";
+import { useRouter } from "next/router";
 import { BsInfoLg } from "react-icons/bs";
 import { BiSolidUserCircle } from "react-icons/bi";
 import UploadData from "../../components/UploadData/UploadData";
 import DataSummery from "../../components/DataSummery/DataSummery";
 import { getCookie, setCookie } from "../../lib/useCookies";
+import Result from "../../components/Result/Result";
 
 const dashboard = (props) => {
+  const router = useRouter();
   console.log(props.token.token.data, "in dashboard");
 
   const [showProfile, setShowProfile] = useState(false);
   const [uploadData, setUploadData] = useState(true);
   const [uploadSummery, setUploadSummery] = useState(false);
+  const [result, setResult] = useState(false);
   const [activeMenu, setActiveMenu] = useState({
     Dashboard: true,
     History: false,
@@ -43,6 +47,10 @@ const dashboard = (props) => {
       setUploadData(true);
     }
   }, []);
+
+  const goToResult = (data) => {
+    setResult(data);
+  };
   const goToSummery = (data) => {
     setUploadSummery(data);
     setCookie("goToSummery", data);
@@ -87,14 +95,15 @@ const dashboard = (props) => {
           <div className={styles.stickyWrap}>
             <div className={styles.menu}>
               <span
-                onClick={() =>
+                onClick={() => {
                   setActiveMenu({
                     Dashboard: true,
                     History: false,
                     Report: false,
                     Help: false,
-                  })
-                }
+                  });
+                  router.push("/dashboard").then(() => router.reload());
+                }}
                 className={
                   activeMenu.Dashboard ? styles.activeSpan : styles.inActiveSpan
                 }
@@ -184,10 +193,16 @@ const dashboard = (props) => {
             ""
           )}
           {uploadSummery ? (
-            <DataSummery userID={props.token.token.data.user_id} />
+            <DataSummery
+              userID={props.token.token.data.user_id}
+              setUploadData={disableUpload}
+              setUploadSummery={goToSummery}
+              setResult={goToResult}
+            />
           ) : (
             ""
           )}
+          {result ? <Result userID={props.token.token.data.user_id} /> : ""}
         </div>
       </div>
     </div>

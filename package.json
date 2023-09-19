@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "proxy": "http://3.135.218.54:8000",
+  "proxy": "http://3.139.243.94:8000",
   "dependencies": {
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.19",

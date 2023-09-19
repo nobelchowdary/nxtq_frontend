@@ -3,11 +3,12 @@ import styles from "../UploadData/upload.module.css";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { HiOutlineDocumentText } from "react-icons/hi";
 import PatientInfoForm from "../Form/PatientInfoForm";
-import { BsCheckCircleFill } from "react-icons/bs";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import { getCookie } from "../../lib/useCookies";
 
 const Measurement = ({ userID, setMeasurement }) => {
+  const router = useRouter();
   const [patientDataSubmit, setPatientDataSubmit] = useState(false);
   const [query, setQuery] = useState({
     buttock_heigh: 0,
@@ -38,7 +39,7 @@ const Measurement = ({ userID, setMeasurement }) => {
     if (patientDataSubmit) {
       try {
         const data = await fetch(
-          "http://3.135.218.54:8000/nxtapi/submit_measurement/",
+          "http://3.139.243.94:8000/nxtapi/submit_measurement/",
           {
             method: "POST",
             body: JSON.stringify({
@@ -266,7 +267,7 @@ const Measurement = ({ userID, setMeasurement }) => {
         <button
           disabled={patientDataSubmit}
           onClick={() => {
-            setMeasurement(false);
+            router.push("/dashboard").then(() => router.reload());
           }}
         >
           Continue <MdKeyboardArrowRight style={{ fontSize: "20px" }} />

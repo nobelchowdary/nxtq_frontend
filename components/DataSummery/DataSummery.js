@@ -3,7 +3,12 @@ import styles from "../UploadData/upload.module.css";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { getCookie } from "../../lib/useCookies";
 
-const DataSummery = ({ userID }) => {
+const DataSummery = ({
+  userID,
+  setUploadData,
+  setUploadSummery,
+  setResult,
+}) => {
   const patentID = getCookie("patientInfo");
   const [fileData, setFileData] = useState("");
   const [dataError, setDataError] = useState(false);
@@ -12,7 +17,7 @@ const DataSummery = ({ userID }) => {
     const getSummery = async () => {
       try {
         const data = await fetch(
-          "http://3.135.218.54:8000/nxtapi/input_files_summary/",
+          "http://3.139.243.94:8000/nxtapi/input_files_summary/",
           {
             method: "POST",
             body: JSON.stringify({
@@ -30,11 +35,12 @@ const DataSummery = ({ userID }) => {
 
           const checkError = () => {
             JSON.parse(fileData.summary).data.map((data, index) => {
-              const check = data.includes(null);
+              console.log(data, "summery data");
+
+              const check = data.includes("Bad");
               if (check) {
                 setDataError(true);
-              } else setDataError(true);
-              console.log(dataError);
+              }
             });
           };
           checkError();
@@ -74,9 +80,7 @@ const DataSummery = ({ userID }) => {
             </span>
             <div className={styles.boxWrap}>
               <div className={styles.box}>
-                {fileData === ""
-                  ? ""
-                  : JSON.parse(fileData.summary).index.length}
+                {fileData === "" ? "" : fileData.total_csv_files}
               </div>
               <div className={styles.box}></div>
               <div className={styles.box}></div>
@@ -120,14 +124,26 @@ const DataSummery = ({ userID }) => {
       </div>
       <div className={styles.continue1}>
         {dataError ? (
-          <button>
+          <button
+            onClick={() => {
+              setUploadSummery(false);
+              setUploadData(true);
+            }}
+          >
             Discard & Reupload
             <MdKeyboardArrowRight style={{ fontSize: "20px" }} />
           </button>
         ) : (
           ""
         )}
-        <button>
+        <button
+          disabled={fileData === "" ? true : false}
+          onClick={() => {
+            setUploadData(false);
+            setUploadSummery(false);
+            setResult(true);
+          }}
+        >
           {dataError ? "Proceed as it is" : "Continue"}
           <MdKeyboardArrowRight style={{ fontSize: "20px" }} />
         </button>

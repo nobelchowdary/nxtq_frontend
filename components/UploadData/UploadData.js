@@ -14,13 +14,13 @@ const UploadData = ({
   uploadData,
 }) => {
   const [patientDetails, setPatientDetails] = useState([]);
-  // const patentID = getCookie("patientInfo");
+  const patentID = getCookie("patientInfo");
   const [nextSummery, setNextSummery] = useState(false);
   const [query, setQuery] = useState({
     user_id: userID,
-    patient_id: "",
+    patient_id: patentID,
   });
-
+  console.log(typeof patentID);
   // const getPatient = patientId.sort(function (a, b) {
   //   return a - b;
   // });
@@ -44,7 +44,7 @@ const UploadData = ({
     const getPatientInfo = async () => {
       try {
         const data = await fetch(
-          "http://3.135.218.54:8000/nxtapi/get_user_patients/",
+          "http://3.139.243.94:8000/nxtapi/get_user_patients/",
           {
             method: "POST",
             body: JSON.stringify({
@@ -68,7 +68,7 @@ const UploadData = ({
   //   const fetchPatientDetails = async () => {
   //     try {
   //       const data = await fetch(
-  //         "http://3.135.218.54:8000/get_patient_info/",
+  //         "http://3.139.243.94:8000/get_patient_info/",
   //         {
   //           method: "POST",
   //           body: JSON.stringify({
@@ -94,7 +94,7 @@ const UploadData = ({
       console.log("patientId is there");
       try {
         const data = await fetch(
-          "http://3.135.218.54:8000/nxtapi/fetch_user_s3_folders/",
+          "http://3.139.243.94:8000/nxtapi/fetch_user_s3_folders/",
           {
             method: "POST",
             body: JSON.stringify({
@@ -144,7 +144,7 @@ const UploadData = ({
 
     try {
       const data = await fetch(
-        "http://3.135.218.54:8000/nxtapi/upload_csv_file/",
+        "http://3.139.243.94:8000/nxtapi/upload_csv_file/",
         {
           method: "POST",
           body: formData,
@@ -160,8 +160,8 @@ const UploadData = ({
     }
   };
   const handleCustomButtonClick = () => {
-    if (patientDetails.length === 0)
-      alert("Please submit patient data and measurement data first");
+    if (query.patient_id.length === 0)
+      alert("Please submit patient data or Select a existing patient first");
     else fileInputRef.current.click();
   };
   const showHideMeasurement = (data) => {
