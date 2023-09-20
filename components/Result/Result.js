@@ -152,27 +152,29 @@ const Result = ({ userID }) => {
       ) : (
         ""
       )}
-      {showPlots
-        ? plots.map((data, i) => {
-            return data.map((data, i) => {
-              const imageUrl = `https://nxtq.s3.us-east-2.amazonaws.com/patients_summary/${userID}/${patentID}/${data}.png`;
+      <div className={styles.colWrap}>
+        {showPlots
+          ? plots.map((data, i) => {
+              return data.map((data, i) => {
+                const imageUrl = `https://nxtq.s3.us-east-2.amazonaws.com/patients_summary/${userID}/${patentID}/${data}.png`;
 
-              return (
-                <span className={styles.plotBox} key={i}>
-                  <label>
-                    <input
-                      type="checkbox"
-                      name="checkbox"
-                      checked={checkboxes[i].checkbox}
-                      onChange={() => handleCheckboxChange(i)}
-                    />
-                    {data}
-                  </label>
-                </span>
-              );
-            });
-          })
-        : ""}
+                return (
+                  <span className={styles.plotBox} key={i}>
+                    <label>
+                      <input
+                        type="checkbox"
+                        name="checkbox"
+                        checked={checkboxes[i].checkbox}
+                        onChange={() => handleCheckboxChange(i)}
+                      />
+                      {data}
+                    </label>
+                  </span>
+                );
+              });
+            })
+          : ""}
+      </div>
       {checkboxes.length > 0 ? (
         <button onClick={generateImage}>Generate Plot</button>
       ) : (

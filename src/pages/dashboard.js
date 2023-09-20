@@ -102,6 +102,8 @@ const dashboard = (props) => {
                     Report: false,
                     Help: false,
                   });
+                  setCookie("disableUpload", true);
+                  setCookie("goToSummery", false);
                   router.push("/dashboard").then(() => router.reload());
                 }}
                 className={
