@@ -14,7 +14,7 @@ import { BsInfoLg } from "react-icons/bs";
 import { BiSolidUserCircle } from "react-icons/bi";
 import UploadData from "../../components/UploadData/UploadData";
 import DataSummery from "../../components/DataSummery/DataSummery";
-import { getCookie, setCookie } from "../../lib/useCookies";
+import { getCookie, setCookie, clearCookie } from "../../lib/useCookies";
 import Result from "../../components/Result/Result";
 
 const dashboard = (props) => {
@@ -35,7 +35,13 @@ const dashboard = (props) => {
   useEffect(() => {
     const uploadOn = getCookie("disableUpload");
     const summeryOn = getCookie("goToSummery");
-
+    const resultOn = getCookie("ResultPage");
+    console.log(resultOn, "cookie");
+    if (resultOn === false || resultOn === true) {
+      setResult(resultOn);
+    } else {
+      setResult(false);
+    }
     if (summeryOn === false || summeryOn === true) {
       setUploadSummery(summeryOn);
     } else {
@@ -82,7 +88,17 @@ const dashboard = (props) => {
             >
               <span>My Account</span>
               <span>setting</span>
-              <span onClick={logout}>logout</span>
+              <span
+                onClick={() => {
+                  clearCookie("patientInfo");
+                  clearCookie("goToSummery");
+                  clearCookie("disableUpload");
+                  clearCookie("ResultPage");
+                  logout();
+                }}
+              >
+                logout
+              </span>
             </div>
           ) : (
             ""
@@ -104,6 +120,7 @@ const dashboard = (props) => {
                   });
                   setCookie("disableUpload", true);
                   setCookie("goToSummery", false);
+                  setCookie("ResultPage", false);
                   router.push("/dashboard").then(() => router.reload());
                 }}
                 className={

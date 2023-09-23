@@ -13,8 +13,10 @@ const UploadData = ({
   patientId,
   uploadData,
 }) => {
+  const [showLoading, setShowLoading] = useState(false);
   const [patientDetails, setPatientDetails] = useState([]);
   const patentID = getCookie("patientInfo");
+  const phoneKeys = [];
   const [nextSummery, setNextSummery] = useState(false);
   const [query, setQuery] = useState({
     user_id: userID,
@@ -107,11 +109,12 @@ const UploadData = ({
           }
         ).then((t) => t.json());
         if (data.status === true) {
-          console.log(data);
+          console.log(data.data);
           setPatientData({
             message: data.message,
             data: data.data,
           });
+          // console.log(patientData.data.Phone_1);
         }
       } catch (error) {}
     };
@@ -133,6 +136,7 @@ const UploadData = ({
       alert("Please select one or more CSV files.");
       return;
     }
+    setShowLoading(true);
     const formData = new FormData();
 
     selectedFiles.forEach((file) => {
@@ -155,6 +159,7 @@ const UploadData = ({
         setSelectedFiles([]);
         setNextSummery(true);
       }
+      setShowLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -223,11 +228,24 @@ const UploadData = ({
               <p>{patientData.message}</p>
               <div className={styles.container}>
                 {patientData.data.map((data, i) => {
+                  const columnHeaders = Object.keys(patientData.data[i]);
+                  phoneKeys.push(columnHeaders[0]);
+
                   return (
-                    <span className={styles.patientDataFolder} key={i}>
-                      <BsFolderCheck />
-                      {data}
-                    </span>
+                    <div className={styles.patientDataFolder} key={i}>
+                      <p
+                        style={
+                          i === 1 || i === 2 || i === 3
+                            ? { borderTop: "1px solid #646464" }
+                            : { borderTop: 0 }
+                        }
+                      >
+                        <BsFolderCheck />
+                        {columnHeaders[0]}
+                      </p>
+
+                      <span>{data[columnHeaders].join(", ")}</span>
+                    </div>
                   );
                 })}
               </div>
@@ -251,26 +269,102 @@ const UploadData = ({
             <BsCloudUpload />
           </button>
           <div className={styles.btnWrapper}>
-            <button onClick={handleCustomButtonClick}>
-              Select Files to Upload
-              <AiOutlineFileExcel />
-            </button>
-
-            <div>
-              <p className={styles.selectedFiles}>
-                {selectedFiles.map((file, index) => (
-                  <span key={file.name}>"{file.name}", </span>
-                ))}
-              </p>
-            </div>
+            {showLoading ? (
+              <div className="lds-roller">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            ) : (
+              <div style={{ display: "flex", flexFlow: "column" }}>
+                <div className={styles.btnS}>
+                  <button
+                    onClick={handleCustomButtonClick}
+                    disabled={phoneKeys.includes("Phone_1")}
+                  >
+                    Select files from phone 1
+                    <AiOutlineFileExcel />
+                  </button>
+                  <button
+                    onClick={handleCustomButtonClick}
+                    disabled={
+                      !phoneKeys.includes("Phone_1") ||
+                      phoneKeys.includes("Phone_2") ||
+                      phoneKeys.length === 0
+                        ? true
+                        : false
+                    }
+                  >
+                    Select files from phone 2
+                    <AiOutlineFileExcel />
+                  </button>
+                  <button
+                    onClick={handleCustomButtonClick}
+                    disabled={
+                      !phoneKeys.includes("Phone_1" && "Phone_2") ||
+                      phoneKeys.length === 0 ||
+                      phoneKeys.includes("Phone_3")
+                        ? true
+                        : false
+                    }
+                  >
+                    Select files from phone 3
+                    <AiOutlineFileExcel />
+                  </button>
+                  <button
+                    onClick={handleCustomButtonClick}
+                    disabled={
+                      !phoneKeys.includes(
+                        "Phone_1" && "Phone_2" && "Phone_3"
+                      ) ||
+                      phoneKeys.length === 0 ||
+                      phoneKeys.includes("Phone_4")
+                        ? true
+                        : false
+                    }
+                  >
+                    Select files from phone 4
+                    <AiOutlineFileExcel />
+                  </button>
+                  <button
+                    onClick={handleCustomButtonClick}
+                    disabled={
+                      !phoneKeys.includes(
+                        "Phone_1" && "Phone_2" && "Phone_3" && "Phone_4"
+                      ) ||
+                      phoneKeys.length === 0 ||
+                      phoneKeys.includes("Phone_5")
+                        ? true
+                        : false
+                    }
+                  >
+                    Select files from phone 5
+                    <AiOutlineFileExcel />
+                  </button>
+                </div>
+                <div>
+                  <p className={styles.selectedFiles}>
+                    {selectedFiles.map((file, index) => (
+                      <span key={file.name}>"{file.name}", </span>
+                    ))}
+                  </p>
+                </div>
+                {selectedFiles.length > 0 ? (
+                  <button onClick={sendRequestToApi}>
+                    Submit Upload Data <BsCloudUpload />
+                  </button>
+                ) : (
+                  ""
+                )}
+              </div>
+            )}
           </div>
-          {selectedFiles.length > 0 ? (
-            <button onClick={sendRequestToApi}>
-              Upload Data <BsCloudUpload />
-            </button>
-          ) : (
-            ""
-          )}
+
           {/* <button>
             Upload Data <BsCloudUpload />
           </button> */}

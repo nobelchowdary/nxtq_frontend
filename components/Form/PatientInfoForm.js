@@ -3,12 +3,13 @@ import styles from "./Form.module.css";
 import { setCookie } from "../../lib/useCookies";
 const PatientInfoForm = ({ userID, setPatientDataSubmit }) => {
   // console.log(userID, "hello");
+  const [disableForm, setDisableForm] = useState(false);
   const [query, setQuery] = useState({
     name: "",
-    age: "",
+    age: 0,
     gender: "",
-    height: "",
-    weight: "",
+    height: 0,
+    weight: 0,
     concern: "",
     illness: "",
   });
@@ -48,6 +49,7 @@ const PatientInfoForm = ({ userID, setPatientDataSubmit }) => {
       // console.log(data.status, data, "hello");
       if (data.status === true) {
         alert(data.message);
+        setDisableForm(true);
         setCookie("patientInfo", data.data.patient_id);
         setQuery({
           name: "",
@@ -83,7 +85,6 @@ const PatientInfoForm = ({ userID, setPatientDataSubmit }) => {
           <input
             type="number"
             name="age"
-            required
             placeholder="Your age"
             value={query.age}
             onChange={handleParam()}
@@ -93,7 +94,6 @@ const PatientInfoForm = ({ userID, setPatientDataSubmit }) => {
           <label htmlFor="gender">Gender</label>
           <select
             name="gender"
-            required
             value={query.gender}
             onChange={handleParam()}
             placeholder="Select gender"
@@ -110,7 +110,6 @@ const PatientInfoForm = ({ userID, setPatientDataSubmit }) => {
           <input
             type="number"
             name="height"
-            required
             placeholder="Your height"
             value={query.height}
             onChange={handleParam()}
@@ -121,7 +120,6 @@ const PatientInfoForm = ({ userID, setPatientDataSubmit }) => {
           <input
             type="number"
             name="weight"
-            required
             placeholder="Your weight"
             value={query.weight}
             onChange={handleParam()}
@@ -133,7 +131,6 @@ const PatientInfoForm = ({ userID, setPatientDataSubmit }) => {
         <input
           type="text"
           name="concern"
-          required
           placeholder="Your concern"
           value={query.concern}
           onChange={handleParam()}
@@ -143,7 +140,6 @@ const PatientInfoForm = ({ userID, setPatientDataSubmit }) => {
         <label htmlFor="illness">Any Previous illness</label>
         <select
           name="illness"
-          required
           value={query.illness}
           onChange={handleParam()}
           placeholder="Select a option"
@@ -152,7 +148,9 @@ const PatientInfoForm = ({ userID, setPatientDataSubmit }) => {
           <option value="false">No</option>
         </select>
       </div>
-      <button type="submit">submit</button>
+      <button type="submit" disabled={disableForm}>
+        submit
+      </button>
     </form>
   );
 };

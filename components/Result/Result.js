@@ -102,7 +102,7 @@ const Result = ({ userID }) => {
 
     reqFetchImage(selectedCheckboxes);
   };
-  setTimeout(() => {});
+
   const reqFetchImage = async (selectedCheckboxes) => {
     let selectedImage = [];
     selectedCheckboxes.map((data, i) => {
@@ -137,7 +137,8 @@ const Result = ({ userID }) => {
 
   return (
     <div className={styles.table}>
-      <button onClick={fetchData}>Generate Result</button>
+      {showPlots ? "" : <button onClick={fetchData}>Generate Result</button>}
+
       {showLoading ? (
         <div className="lds-roller">
           <div></div>

@@ -47,7 +47,9 @@ button:hover {
   padding: 14px 20px;
   background-color: transparent;
 }
-.button:disabled {
+button:disabled {
+  border: 0;
+  color: white;
   background-color: gray;
 }
 .lds-roller {
