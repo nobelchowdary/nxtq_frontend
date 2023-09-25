@@ -372,7 +372,7 @@ const UploadData = ({
       </div>
       <div className={styles.continue}>
         <button
-          disabled={!nextSummery}
+          disabled={patientDetails.length > 0 ? true : false}
           onClick={() => {
             setUploadData(false);
             setUploadSummery(true);
