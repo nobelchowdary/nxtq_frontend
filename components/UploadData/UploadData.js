@@ -172,6 +172,7 @@ const UploadData = ({
   const showHideMeasurement = (data) => {
     setMeasurement(data);
   };
+  console.log(patientData.length === 0);
   return measurement ? (
     <Measurement userID={userID} setMeasurement={showHideMeasurement} />
   ) : (
@@ -372,7 +373,7 @@ const UploadData = ({
       </div>
       <div className={styles.continue}>
         <button
-          disabled={patientDetails.length > 0 ? true : false}
+          disabled={patientData.length === 0 ? true : false}
           onClick={() => {
             setUploadData(false);
             setUploadSummery(true);
