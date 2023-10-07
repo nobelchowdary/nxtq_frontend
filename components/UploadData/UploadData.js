@@ -22,7 +22,7 @@ const UploadData = ({
     user_id: userID,
     patient_id: patentID,
   });
-  console.log(typeof patentID);
+  // console.log(typeof patentID);
   // const getPatient = patientId.sort(function (a, b) {
   //   return a - b;
   // });

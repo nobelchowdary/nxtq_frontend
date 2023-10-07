@@ -3,12 +3,14 @@ import styles from "../UploadData/upload.module.css";
 import Image from "next/image";
 import { getCookie } from "../../lib/useCookies";
 import { AiFillCloseCircle } from "react-icons/ai";
-
+import { BsCloudUpload } from "react-icons/bs";
+import Link from "next/link";
 const Result = ({ userID }) => {
   const patentID = getCookie("patientInfo");
   const [plots, setPlots] = useState([[]]);
   const [showPopup, setShowPopup] = useState(false);
   const [checkboxes, setCheckboxes] = useState([]);
+  const [motUrl, setMotUrl] = useState("");
   const [Src, setSrc] = useState([]);
   const [fetchImage, setFetchImage] = useState("");
   const [showLoading, setShowLoading] = useState(false);
@@ -34,14 +36,13 @@ const Result = ({ userID }) => {
           }
         ).then((t) => t.json());
         if (reqData.status === true) {
-          setPlots(reqData.data);
-          reqData.data.map((data, i) => {
-            return data.map((data, i) => {
-              return setCheckboxes((prevCheckboxes) => [
-                ...prevCheckboxes,
-                { checkbox: false, value: data, id: i },
-              ]);
-            });
+          setPlots(reqData.data.columns);
+          setMotUrl(reqData.data.mot_url);
+          reqData.data.columns.map((data, i) => {
+            return setCheckboxes((prevCheckboxes) => [
+              ...prevCheckboxes,
+              { checkbox: false, value: data, id: i },
+            ]);
             // const imageUrl = `https://nxtq.s3.us-east-2.amazonaws.com/patients_summary/${userID}/${patentID}/${data}.png`;
             // return setPlots(...plots, { name: data, img: imageUrl });
           });
@@ -156,28 +157,36 @@ const Result = ({ userID }) => {
       <div className={styles.colWrap}>
         {showPlots
           ? plots.map((data, i) => {
-              return data.map((data, i) => {
-                const imageUrl = `https://nxtq.s3.us-east-2.amazonaws.com/patients_summary/${userID}/${patentID}/${data}.png`;
+              const imageUrl = `https://nxtq.s3.us-east-2.amazonaws.com/patients_summary/${userID}/${patentID}/${data}.png`;
 
-                return (
-                  <span className={styles.plotBox} key={i}>
-                    <label>
-                      <input
-                        type="checkbox"
-                        name="checkbox"
-                        checked={checkboxes[i].checkbox}
-                        onChange={() => handleCheckboxChange(i)}
-                      />
-                      {data}
-                    </label>
-                  </span>
-                );
-              });
+              return (
+                <span className={styles.plotBox} key={i}>
+                  <label>
+                    <input
+                      type="checkbox"
+                      name="checkbox"
+                      checked={checkboxes[i].checkbox}
+                      onChange={() => handleCheckboxChange(i)}
+                    />
+                    {data}
+                  </label>
+                </span>
+              );
             })
           : ""}
       </div>
       {checkboxes.length > 0 ? (
-        <button onClick={generateImage}>Generate Plot</button>
+        <>
+          <button onClick={generateImage}>Generate Plot</button>
+          <Link href={motUrl}>
+            <button
+              style={{ display: "flex", alignItems: "center", gap: "5px" }}
+            >
+              <BsCloudUpload />
+              Download Latest Mot
+            </button>
+          </Link>
+        </>
       ) : (
         ""
       )}

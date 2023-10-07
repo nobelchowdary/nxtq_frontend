@@ -1,0 +1,45 @@
+.History {
+  display: flex;
+  flex-flow: column;
+  gap: 20px;
+}
+.box {
+  background-color: white;
+  border-radius: 4px;
+  padding: 10px;
+  display: flex;
+  flex-flow: column;
+  gap: 10px;
+}
+.box p {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+.History select {
+  padding: 4px 10px;
+  border-radius: 4px;
+  height: 40px;
+  width: 200px;
+  appearance: none;
+  position: relative;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.customDropdown {
+  position: relative;
+  display: flex;
+  width: max-content;
+  align-items: center;
+  /* Adjust the width as needed */
+}
+
+.customArrow {
+  position: absolute;
+  top: 40%;
+  right: 10px; /* Adjust the position as needed */
+  transform: translateY(-50%);
+  pointer-events: none;
+}

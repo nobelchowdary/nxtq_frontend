@@ -63,7 +63,7 @@ const DataSummery = ({
         ) : (
           <>
             {" "}
-            <h2>Upload Data Summery</h2>
+            <h2>Upload Data Summary</h2>
             <span
               className={dataError ? styles.redBox : styles.greenBox}
             ></span>
@@ -87,7 +87,7 @@ const DataSummery = ({
           <div className={styles.uploadWrap}>
             <div className={styles.uploadLeft}>
               <div className={styles.uploadInner}>
-                <h2 className={styles.head}>Data Collection</h2>
+                <h2 className={styles.head}>Context</h2>
                 <form>
                   <textarea
                     placeholder="Data collection environment information. 

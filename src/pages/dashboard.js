@@ -16,10 +16,10 @@ import UploadData from "../../components/UploadData/UploadData";
 import DataSummery from "../../components/DataSummery/DataSummery";
 import { getCookie, setCookie, clearCookie } from "../../lib/useCookies";
 import Result from "../../components/Result/Result";
+import History from "../../components/History/HIstory";
 
 const dashboard = (props) => {
   const router = useRouter();
-  console.log(props.token.token.data, "in dashboard");
 
   const [showProfile, setShowProfile] = useState(false);
   const [uploadData, setUploadData] = useState(true);
@@ -36,7 +36,7 @@ const dashboard = (props) => {
     const uploadOn = getCookie("disableUpload");
     const summeryOn = getCookie("goToSummery");
     const resultOn = getCookie("ResultPage");
-    console.log(resultOn, "cookie");
+
     if (resultOn === false || resultOn === true) {
       setResult(resultOn);
     } else {
@@ -69,7 +69,7 @@ const dashboard = (props) => {
   return (
     <div className={styles.navWrap}>
       <nav className={styles.nav} style={{ backgroundColor: "white" }}>
-        <p className={styles.logo}>NextQ pvt ltd.</p>
+        <p className={styles.logo}>nxtQ</p>
         <div className={styles.profile}>
           <div
             className={styles.profileWrap}
@@ -200,28 +200,41 @@ const dashboard = (props) => {
           </div>
         </div>
         <div className={styles.dashboardItem}>
-          {uploadData ? (
-            <UploadData
-              userID={props.token.token.data.user_id}
-              patientId={props.token.token.data.patients}
-              setUploadSummery={goToSummery}
-              setUploadData={disableUpload}
-              uploadData={uploadData}
-            />
+          {activeMenu.Dashboard ? (
+            <div>
+              {uploadData ? (
+                <UploadData
+                  userID={props.token.token.data.user_id}
+                  patientId={props.token.token.data.patients}
+                  setUploadSummery={goToSummery}
+                  setUploadData={disableUpload}
+                  uploadData={uploadData}
+                />
+              ) : (
+                ""
+              )}
+              {uploadSummery ? (
+                <DataSummery
+                  userID={props.token.token.data.user_id}
+                  setUploadData={disableUpload}
+                  setUploadSummery={goToSummery}
+                  setResult={goToResult}
+                />
+              ) : (
+                ""
+              )}
+              {result ? <Result userID={props.token.token.data.user_id} /> : ""}
+            </div>
           ) : (
             ""
           )}
-          {uploadSummery ? (
-            <DataSummery
-              userID={props.token.token.data.user_id}
-              setUploadData={disableUpload}
-              setUploadSummery={goToSummery}
-              setResult={goToResult}
-            />
+          {activeMenu.History ? (
+            <div>
+              <History userID={props.token.token.data.user_id} />
+            </div>
           ) : (
             ""
           )}
-          {result ? <Result userID={props.token.token.data.user_id} /> : ""}
         </div>
       </div>
     </div>

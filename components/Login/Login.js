@@ -14,10 +14,10 @@ const Login = () => {
             fill={true}
           />
         </div>
-        <h2>Welcome!</h2>
+        <h2>movement form</h2>
         <p>
-          Use these awesome forms to login or create <br />
-          new account in your project for free
+          Movement is Sixth sense and we help <br />
+          bring it back to humanity.
         </p>
       </div>
       <div className={styles.formWrapper}>

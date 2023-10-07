@@ -15,6 +15,7 @@
 .logo {
   color: #4fd1c5;
   font-weight: 700;
+  font-size: 28px;
 }
 .profile {
   display: flex;
@@ -88,7 +89,9 @@
   width: 100%;
   margin-top: 70px;
   padding: 40px;
-  align-items: center;
+  min-height: 100vh;
+  max-height: max-content;
+  align-items: flex-start;
 }
 .profileSet {
   position: absolute;
