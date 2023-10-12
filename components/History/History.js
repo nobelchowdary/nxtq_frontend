@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getCookie, setCookie } from "../../lib/useCookies";
 import { AiOutlineCloudDownload } from "react-icons/ai";
 import styles from "./History.module.css";
+import Link from "next/link";
 const History = ({ userID }) => {
   const patentID = getCookie("patientInfo");
   const [query, setQuery] = useState({
@@ -97,10 +98,12 @@ const History = ({ userID }) => {
         ) : (
           fileArray.map((data, i) => {
             return (
-              <p key={i}>
-                <AiOutlineCloudDownload />
-                {data}
-              </p>
+              <Link href={data} key={i}>
+                <p>
+                  <AiOutlineCloudDownload />
+                  {data}
+                </p>
+              </Link>
             );
           })
         )}
