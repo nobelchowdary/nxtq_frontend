@@ -16,8 +16,13 @@ a {
   color: inherit;
   text-decoration: none;
 }
+.imgWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .imgWrapper img {
-  width: 200%;
+  width: 100%;
   height: auto;
 }
 .bgWrap {

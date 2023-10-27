@@ -16,7 +16,7 @@ import UploadData from "../../components/UploadData/UploadData";
 import DataSummery from "../../components/DataSummery/DataSummery";
 import { getCookie, setCookie, clearCookie } from "../../lib/useCookies";
 import Result from "../../components/Result/Result";
-import History from "../../components/History/HIstory";
+import History from "../../components/History/History";
 
 const dashboard = (props) => {
   const router = useRouter();
@@ -201,7 +201,7 @@ const dashboard = (props) => {
         </div>
         <div className={styles.dashboardItem}>
           {activeMenu.Dashboard ? (
-            <div>
+            <div style={{ width: "100%" }}>
               {uploadData ? (
                 <UploadData
                   userID={props.token.token.data.user_id}

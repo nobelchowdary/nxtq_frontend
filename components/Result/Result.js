@@ -197,12 +197,10 @@ const Result = ({ userID }) => {
               className={styles.icon}
               onClick={() => setShowPopup(false)}
             />
-
-            <div className="imgWrapper">
+            <div className="bgWrap" style={{ zIndex: "0" }}>
               <Image
                 src={`https://nxtq.s3.us-east-2.amazonaws.com/patients_summary/${userID}/${patentID}/${fetchImage}`}
-                width={205}
-                height={474}
+                layout="fill"
                 className={styles.img}
                 alt="measurement"
               />

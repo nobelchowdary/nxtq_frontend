@@ -73,7 +73,7 @@ const Measurement = ({ userID, setMeasurement }) => {
   return (
     <div className={styles.uploadSummery}>
       <div className={styles.uploadWrapMeasurement}>
-        <div className={styles.uploadLeft}>
+        <div className={styles.uploadLeft} style={{ width: "100%" }}>
           <div className={styles.uploadInner}>
             <h2 className={styles.head}>Insights / Results</h2>
             <div className={styles.userSummery}>
