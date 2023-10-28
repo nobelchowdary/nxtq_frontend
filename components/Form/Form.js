@@ -5,6 +5,7 @@ import loginUser from "../../lib/auth";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 const Form = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState({
     password: false,
     user: false,
@@ -17,6 +18,7 @@ const Form = () => {
     role: 1,
   });
   const handleParam = () => (e) => {
+    setError({ user: false, password: false });
     const name = e.target.name;
     const value = e.target.value;
     setQuery((prevState) => ({
@@ -33,6 +35,7 @@ const Form = () => {
 
   const formSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const data = await fetch(
@@ -61,6 +64,7 @@ const Form = () => {
       ).then((t) => t.json());
 
       if (data.status === true) {
+        setLoading(false);
         loginUser({ data }, true);
 
         setQuery({
@@ -69,6 +73,12 @@ const Form = () => {
           password: "",
           role: 1,
         });
+      }
+      if (data.status === false) {
+        setLoading(false);
+        if (data.message === "User/Username already exists") {
+          setError({ user: true, password: false });
+        } else setError({ user: false, password: true });
       }
     } catch (error) {
       console.log(error);
@@ -102,6 +112,13 @@ const Form = () => {
           value={query.email}
           onChange={handleParam()}
         />
+        {error.user === true ? (
+          <p style={{ fontSize: "14px", color: "red" }}>
+            Email Id Already in Use
+          </p>
+        ) : (
+          ""
+        )}
       </div>
 
       <div className={styles.inputWrapper}>
@@ -114,6 +131,11 @@ const Form = () => {
           value={query.password}
           onChange={handleParam()}
         />
+        {error.password === true ? (
+          <p style={{ fontSize: "14px", color: "red" }}>Invalid Credentials</p>
+        ) : (
+          ""
+        )}
       </div>
       {register ? (
         <div className={styles.inputWrapperS}>
@@ -130,13 +152,38 @@ const Form = () => {
       ) : (
         ""
       )}
+      {loading ? (
+        <div className="lds-roller">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      ) : (
+        <button type="submit"> {register ? "SIGN UP" : "SIGN IN"}</button>
+      )}
 
-      <button type="submit"> {register ? "SIGN UP" : "SIGN IN"}</button>
       <div className={styles.bottom}>
         <p className={styles.normalText}>
           {register ? "Already have an account?" : "Don't have an account? "}
         </p>
-        <p className={styles.hyperText} onClick={() => setRegister(!register)}>
+        <p
+          className={styles.hyperText}
+          onClick={() => {
+            setQuery({
+              name: "",
+              email: "",
+              password: "",
+              role: 1,
+            });
+            setError({ user: false, password: false });
+            setRegister(!register);
+          }}
+        >
           {register ? "Sign in" : "Sign up"}
         </p>
       </div>

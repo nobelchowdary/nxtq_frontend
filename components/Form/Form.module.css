@@ -2,12 +2,12 @@
   display: flex;
   flex-flow: column;
   align-items: center;
-  gap: 20px;
+  gap: 5px;
 }
 .inputWrapper {
   display: flex;
   flex-flow: column;
-  height: 70px;
+  height: 84px;
 }
 .inputWrapper label {
   color: #646464;
