@@ -115,6 +115,26 @@
   border: 1px solid #a0aec0;
   outline: none;
 }
+.PatientForm select {
+  -moz-appearance: none;
+  /* Hide default arrow in other browsers */
+  -webkit-appearance: none;
+  -o-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  height: 45px;
+  width: 100%;
+  margin: 5px 0px;
+  border: 0;
+  padding: 5px 10px;
+  border-radius: 4px;
+  background-color: white;
+  border: 1px solid #a0aec0;
+  background-image: url("/images/down-arrow.png"); /* Replace with the path to your custom arrow image */
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 20px auto;
+}
 .doubleInput {
   display: grid;
   grid-template-columns: 48% 48%;

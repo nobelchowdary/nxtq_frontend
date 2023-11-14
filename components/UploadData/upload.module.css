@@ -1,12 +1,18 @@
 .uploadWrap {
+  display: -webkit-box;
+  display: -ms-grid;
   display: grid;
+  -webkit-grid-template-columns: 28% 70%;
   grid-template-columns: 28% 70%;
   gap: 20px;
   width: 100%;
   position: relative;
 }
 .uploadWrapMeasurement {
+  display: -webkit-box;
+  display: -ms-grid;
   display: grid;
+  -webkit-grid-template-columns: 45% 45%;
   grid-template-columns: 45% 45%;
   gap: 20px;
   width: 100%;
@@ -17,7 +23,7 @@
   border: 1px solid #e2e8f0;
   background: #fff;
   width: 100%;
-  height: 100%;
+  height: max-content;
   box-shadow: 0px 0px 9px 2px rgba(0, 0, 0, 0.04);
   padding: 10px;
 }
@@ -25,6 +31,10 @@
   border-radius: 12px;
   background: #eefbfa;
   padding: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  -webkit-flex-flow: column;
+  -ms-flex-flow: column;
   display: flex;
   flex-flow: column;
   gap: 50px;
@@ -47,6 +57,9 @@
   height: 270px;
   padding: 10px 20px;
 }
+.uploadInner textarea {
+  -webkit-appearance: none;
+}
 .uploadInner textarea::placeholder {
   color: #6a6a6a;
 }
@@ -58,7 +71,12 @@
 .uploadInner form button {
   font-size: 16px !important;
 }
+.uploadInner form button {
+  -webkit-font-smoothing: antialiased;
+}
 .uploadRight {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   gap: 20px;
   flex-flow: column;
@@ -70,15 +88,26 @@
   flex-flow: column;
   gap: 10px;
 }
+/* Hide default arrow in Firefox */
 .patientDetails select {
-  border: 0;
-  outline: 0;
+  -moz-appearance: none;
+  /* Hide default arrow in other browsers */
+  -webkit-appearance: none;
+  -o-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
   width: 230px;
-  padding: 2px 10px;
   height: 40px;
-  border-radius: 4px;
+  padding: 2px 10px;
   border: 1px solid #6a6a6a;
+  border-radius: 4px;
+  background-color: transparent;
+  background-image: url("/images/down-arrow.png"); /* Replace with the path to your custom arrow image */
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 20px auto; /* Adjust the size of the arrow */
 }
+
 .patientDetails select::placeholder {
   color: #6a6a6a;
 }
@@ -100,11 +129,15 @@
   padding: 9px 20px;
 }
 .continue {
+  display: -webkit-box;
+  display: -ms-flexbox;
   width: 100%;
   display: flex;
   justify-content: flex-end;
 }
 .continue1 {
+  display: -webkit-box;
+  display: -ms-flexbox;
   width: 100%;
   display: flex;
   gap: 10px;
